@@ -24,8 +24,9 @@ import java.io.IOException
 import javax.inject.Inject
 
 @ActivityRetainedScoped
-class DataStoreRepository @Inject constructor (
-    @ApplicationContext private val context: Context) {
+class DataStoreRepository @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
 
     private object PreferenceKeys {
         val selectedMealType = preferencesKey<String>(PREFERENCES_MEAL_TYPE)
@@ -82,25 +83,25 @@ class DataStoreRepository @Inject constructor (
 
         }
 
-        val readBackOnline : Flow<Boolean> = dataStore.data
-            .catch {  exception ->
-                if (exception is IOException) {
-                    emit(emptyPreferences())
-                } else {
-                    throw exception
-                }
+    val readBackOnline: Flow<Boolean> = dataStore.data
+        .catch { exception ->
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
             }
-            .map {  preferences->
-                val backOnline = preferences[PreferenceKeys.backOnline] ?: false
-                backOnline
-            }
-
+        }
+        .map { preferences ->
+            val backOnline = preferences[PreferenceKeys.backOnline] ?: false
+            backOnline
+        }
 
 
 }
+
 data class MealAndDietType(
-    val selectedMealType:String,
-    val selectedMealTypeId:Int,
-    val selectedDietType:String,
-    val selectedDietTypeId:Int
+    val selectedMealType: String,
+    val selectedMealTypeId: Int,
+    val selectedDietType: String,
+    val selectedDietTypeId: Int
 )

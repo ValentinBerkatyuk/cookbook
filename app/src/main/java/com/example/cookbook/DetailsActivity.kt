@@ -32,12 +32,12 @@ class DetailsActivity : AppCompatActivity() {
     private val args by navArgs<DetailsActivityArgs>()
     private val mainViewModel: MainViewModel by viewModels()
 
-    private lateinit var menuItem : MenuItem
+    private lateinit var menuItem: MenuItem
 
     private var recipeSaved = false
     private var savedRecipeId = 0
 
-    private lateinit var binding : ActivityDetailsBinding
+    private lateinit var binding: ActivityDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +45,7 @@ class DetailsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
-        binding.toolbar.setTitleTextColor(ContextCompat.getColor(this,R.color.white))
+        binding.toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val fragments = ArrayList<Fragment>()
@@ -59,16 +59,16 @@ class DetailsActivity : AppCompatActivity() {
         title.add("Instructions")
 
         val resultBundle = Bundle()
-        resultBundle.putParcelable(RECIPE_RESULT_KEY,args.result)
+        resultBundle.putParcelable(RECIPE_RESULT_KEY, args.result)
 
-        val pagerAdapter = PagerAdapter(resultBundle,fragments,this)
+        val pagerAdapter = PagerAdapter(resultBundle, fragments, this)
 
         binding.viewPager2.isUserInputEnabled = true
-        binding.viewPager2.apply{
+        binding.viewPager2.apply {
             adapter = pagerAdapter
         }
 
-        TabLayoutMediator(binding.tabLayout,binding.viewPager2) { tab,position ->
+        TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
             tab.text = title[position]
         }.attach()
 

@@ -36,12 +36,12 @@ class RecipesViewModel @ViewModelInject constructor(
     val readMealAndDietType = dataStoreRepository.readMealAndDietType
     val readBackOnline = dataStoreRepository.readBackOnline.asLiveData()
 
-    fun saveMealAndDietType(mealType:String,mealTypeId:Int,dietType:String,dietTypeId:Int) =
-        viewModelScope.launch(Dispatchers.IO){
+    fun saveMealAndDietType(mealType: String, mealTypeId: Int, dietType: String, dietTypeId: Int) =
+        viewModelScope.launch(Dispatchers.IO) {
             dataStoreRepository.saveMealAndDietType(mealType, mealTypeId, dietType, dietTypeId)
         }
 
-    private fun saveBackOnline(backOnline:Boolean)=
+    private fun saveBackOnline(backOnline: Boolean) =
         viewModelScope.launch(Dispatchers.IO) {
             dataStoreRepository.saveBackOnline(backOnline)
         }
@@ -50,7 +50,7 @@ class RecipesViewModel @ViewModelInject constructor(
         val queries: HashMap<String, String> = HashMap()
 
         viewModelScope.launch {
-            readMealAndDietType.collect {  value->
+            readMealAndDietType.collect { value ->
                 mealType = value.selectedMealType
                 dietType = value.selectedDietType
             }
@@ -66,14 +66,14 @@ class RecipesViewModel @ViewModelInject constructor(
         return queries
     }
 
-    fun applySearchQuery(searchQuery:String): HashMap<String,String>{
-        val queries: HashMap<String,String> = HashMap()
-        queries[QUERY_SEARCH]=searchQuery
+    fun applySearchQuery(searchQuery: String): HashMap<String, String> {
+        val queries: HashMap<String, String> = HashMap()
+        queries[QUERY_SEARCH] = searchQuery
         queries[QUERY_NUMBER] = DEFAULT_RECIPES_NUMBER
         queries[QUERY_API_KEY] = API_KEY
         queries[QUERY_ADD_RECIPE_INFORMATION] = "true"
         queries[QUERY_FILL_INGREDIENTS] = "true"
-        return  queries
+        return queries
     }
 
     fun showNetworkStatus() {

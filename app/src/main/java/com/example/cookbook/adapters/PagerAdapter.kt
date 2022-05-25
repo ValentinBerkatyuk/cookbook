@@ -7,7 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class PagerAdapter(
     private val resultBundle: Bundle,
-    private val fragments:ArrayList<Fragment>,
+    private val fragments: ArrayList<Fragment>,
     fragmentActivity: FragmentActivity
 ): FragmentStateAdapter(fragmentActivity) {
 

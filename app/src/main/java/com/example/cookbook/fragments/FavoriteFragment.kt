@@ -23,17 +23,22 @@ import kotlinx.android.synthetic.main.activity_main.*
 @AndroidEntryPoint
 class FavoriteFragment : Fragment() {
 
-    private val mAdapter: FavoriteRecipesAdapter by lazy { FavoriteRecipesAdapter(requireActivity(), mainViewModel) }
+    private val mAdapter: FavoriteRecipesAdapter by lazy {
+        FavoriteRecipesAdapter(
+            requireActivity(),
+            mainViewModel
+        )
+    }
     private val mainViewModel: MainViewModel by viewModels()
-    private var _binding : FragmentFavoriteRecipesBinding? = null
-    private val binding get()= _binding!!
+    private var _binding: FragmentFavoriteRecipesBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentFavoriteRecipesBinding.inflate(inflater,container,false)
+        _binding = FragmentFavoriteRecipesBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = this
         binding.mainViewModel = mainViewModel
@@ -41,11 +46,6 @@ class FavoriteFragment : Fragment() {
         setHasOptionsMenu(true)
         setupRecyclerView(binding.favoriteRecipesRecyclerView)
 
-        val button : MaterialButton = binding.favoriteBottomSheet as MaterialButton
-
-        button.setOnClickListener {
-            findNavController().navigate(R.id.action_favoriteFragment_to_bottomSheet)
-        }
 
         return binding.root
     }
@@ -60,19 +60,19 @@ class FavoriteFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.deleteAll_favorite_recipes_menu){
+        if (item.itemId == R.id.deleteAll_favorite_recipes_menu) {
             mainViewModel.deleteAllFavoriteRecipes()
             showSnackBar()
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun showSnackBar(){
+    private fun showSnackBar() {
         Snackbar.make(
             binding.root,
             "All recipes removed.",
             Snackbar.LENGTH_SHORT
-        ).setAction("Okay"){}
+        ).setAction("Okay") {}
             .show()
     }
 

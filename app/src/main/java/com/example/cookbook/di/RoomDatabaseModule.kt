@@ -20,7 +20,7 @@ object RoomDatabaseModule {
     @Provides
     fun provideDatabase(
         @ApplicationContext context: Context
-    )= Room.databaseBuilder(
+    ) = Room.databaseBuilder(
         context,
         FoodRoomDatabase::class.java,
         DATABASE_NAME
@@ -28,5 +28,5 @@ object RoomDatabaseModule {
 
     @Singleton
     @Provides
-    fun provideDao(database: FoodRoomDatabase)=database.foodRoomDao()
+    fun provideDao(database: FoodRoomDatabase) = database.foodRoomDao()
 }

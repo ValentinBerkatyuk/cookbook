@@ -13,7 +13,7 @@ interface FoodRoomDao {
     suspend fun insertFavoriteRecipe(favoritesEntity: FavoritesEntity)
 
     @Query("SELECT * FROM foodTable ORDER BY id ASC")
-    fun  readFood(): Flow<List<FoodEntity>>
+    fun readFood(): Flow<List<FoodEntity>>
 
     @Query("SELECT * FROM favorite_recipes_table ORDER BY id ASC")
     fun readFavoriteRecipes(): Flow<List<FavoritesEntity>>

@@ -9,7 +9,7 @@ import javax.inject.Inject
 class LocalDataSource @Inject constructor(
     private val foodRoomDao: FoodRoomDao
 ) {
-    fun readDatabase(): Flow<List<FoodEntity>>{
+    fun readDatabase(): Flow<List<FoodEntity>> {
         return foodRoomDao.readFood()
     }
 
@@ -17,7 +17,7 @@ class LocalDataSource @Inject constructor(
         return foodRoomDao.readFavoriteRecipes()
     }
 
-    suspend fun insertFoodRecipe(foodEntity: FoodEntity){
+    suspend fun insertFoodRecipe(foodEntity: FoodEntity) {
         foodRoomDao.insertFood(foodEntity)
     }
 

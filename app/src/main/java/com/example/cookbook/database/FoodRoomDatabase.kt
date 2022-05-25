@@ -5,13 +5,13 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 @Database(
-    entities = [FoodEntity::class,FavoritesEntity::class],
+    entities = [FoodEntity::class, FavoritesEntity::class],
     version = 1,
     exportSchema = false
 )
 
 @TypeConverters(FoodTypeConverter::class)
-abstract class FoodRoomDatabase: RoomDatabase() {
+abstract class FoodRoomDatabase : RoomDatabase() {
 
-    abstract fun foodRoomDao():FoodRoomDao
+    abstract fun foodRoomDao(): FoodRoomDao
 }

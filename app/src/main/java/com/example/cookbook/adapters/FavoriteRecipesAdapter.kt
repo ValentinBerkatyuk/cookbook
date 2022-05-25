@@ -57,35 +57,30 @@ class FavoriteRecipesAdapter(
 
         val currentRecipe = favoriteRecipes[position]
         holder.bind(currentRecipe)
-        /**
-         * Single Click Listener
-         * */
-        holder.itemView.recipesRowLayout.setOnClickListener {
-            if (multiSelection) {
-                applySelection(holder, currentRecipe)
-            } else {
-                val action =
-                    FavoriteFragmentDirections.actionFavoriteFragmentToDetailsActivity(
-                        currentRecipe.result
-                    )
-                holder.itemView.findNavController().navigate(action)
-            }
-        }
-
-        /**
-         * Long Click Listener
-         * */
-        holder.itemView.recipesRowLayout.setOnLongClickListener {
-            if (!multiSelection) {
-                multiSelection = true
-                requireActivity.startActionMode(this)
-                applySelection(holder, currentRecipe)
-                true
-            } else {
-                multiSelection = false
-                false
+        holder.itemView.apply {
+            recipesRowLayout.setOnClickListener {
+                if (multiSelection) {
+                    applySelection(holder, currentRecipe)
+                } else {
+                    val action =
+                        FavoriteFragmentDirections.actionFavoriteFragmentToDetailsActivity(
+                            currentRecipe.result
+                        )
+                    holder.itemView.findNavController().navigate(action)
+                }
             }
 
+            recipesRowLayout.setOnLongClickListener {
+                if (!multiSelection) {
+                    multiSelection = true
+                    requireActivity.startActionMode(this@FavoriteRecipesAdapter)
+                    applySelection(holder, currentRecipe)
+                    true
+                } else {
+                    multiSelection = false
+                    false
+                }
+            }
         }
     }
 
@@ -93,7 +88,7 @@ class FavoriteRecipesAdapter(
         return favoriteRecipes.size
     }
 
-    fun setData(newFavoriteRecipes: List<FavoritesEntity>){
+    fun setData(newFavoriteRecipes: List<FavoritesEntity>) {
         val favoriteRecipesDiffUtil =
             FoodDiffUtil(favoriteRecipes, newFavoriteRecipes)
         val diffUtilResult = DiffUtil.calculateDiff(favoriteRecipesDiffUtil)
@@ -114,11 +109,13 @@ class FavoriteRecipesAdapter(
     }
 
     private fun changeRecipeStyle(holder: MyViewHolder, backgroundColor: Int, strokeColor: Int) {
-        holder.itemView.recipesRowLayout.setBackgroundColor(
-            ContextCompat.getColor(requireActivity, backgroundColor)
-        )
-        holder.itemView.favorite_row_cardView.strokeColor =
-            ContextCompat.getColor(requireActivity, strokeColor)
+        holder.itemView.apply {
+            recipesRowLayout.setBackgroundColor(
+                ContextCompat.getColor(requireActivity, backgroundColor)
+            )
+
+            favorite_row_cardView.strokeColor = ContextCompat.getColor(requireActivity, strokeColor)
+        }
     }
 
     private fun applyActionModeTitle() {
@@ -168,6 +165,7 @@ class FavoriteRecipesAdapter(
         selectedRecipes.clear()
         applyStatusBarColor(R.color.statusBarColor)
     }
+
     private fun applyStatusBarColor(color: Int) {
         requireActivity.window.statusBarColor =
             ContextCompat.getColor(requireActivity, color)

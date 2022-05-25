@@ -10,35 +10,36 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 @Suppress("DEPRECATION")
 @ExperimentalCoroutinesApi
-class NetworkListener : ConnectivityManager.NetworkCallback(){
-    private val isNetworkAvailable= MutableStateFlow(false)
+class NetworkListener : ConnectivityManager.NetworkCallback() {
+    private val isNetworkAvailable = MutableStateFlow(false)
 
-    fun checkedNetworkAvailability(context: Context): MutableStateFlow<Boolean>{
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    fun checkedNetworkAvailability(context: Context): MutableStateFlow<Boolean> {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         connectivityManager.registerDefaultNetworkCallback(this)
 
-        var isConnected=false
+        var isConnected = false
 
         connectivityManager.allNetworks.forEach { network ->
 
-        val networkCapability = connectivityManager.getNetworkCapabilities(network)
-        networkCapability?.let {
-            if(it.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)){
-                isConnected = true
-                return@forEach
+            val networkCapability = connectivityManager.getNetworkCapabilities(network)
+            networkCapability?.let {
+                if (it.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)) {
+                    isConnected = true
+                    return@forEach
+                }
             }
         }
-    }
         isNetworkAvailable.value = isConnected
         return isNetworkAvailable
     }
 
     override fun onAvailable(network: Network) {
-        isNetworkAvailable.value=true
+        isNetworkAvailable.value = true
     }
 
 
     override fun onLost(network: Network) {
-        isNetworkAvailable.value=false
+        isNetworkAvailable.value = false
     }
 }

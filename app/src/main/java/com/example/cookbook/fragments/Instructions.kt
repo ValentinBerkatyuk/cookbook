@@ -24,13 +24,12 @@ class Instructions : Fragment() {
         val args = arguments
         val myBundle: Result? = args?.getParcelable(RECIPE_RESULT_KEY)
         view.instruction_webview.webViewClient = object : WebViewClient() {}
-        val website : String = myBundle!!.sourceUrl
+        val website: String = myBundle!!.sourceUrl
         view.instruction_webview.loadUrl(website)
 
         return view
 
     }
-
 
 
 }

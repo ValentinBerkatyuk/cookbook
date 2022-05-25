@@ -23,13 +23,15 @@ class MainViewModel @ViewModelInject constructor(
 
     //Room
     val readRecipes: LiveData<List<FoodEntity>> = repository.local.readDatabase().asLiveData()
-    val readFavoriteRecipes: LiveData<List<FavoritesEntity>> = repository.local.readFavoriteRecipes().asLiveData()
+    val readFavoriteRecipes: LiveData<List<FavoritesEntity>> =
+        repository.local.readFavoriteRecipes().asLiveData()
 
 
-    private fun insertRecipes(foodEntity: FoodEntity)=
+    private fun insertRecipes(foodEntity: FoodEntity) =
         viewModelScope.launch(Dispatchers.IO) {
             repository.local.insertFoodRecipe(foodEntity)
         }
+
     fun insertFavoriteRecipe(favoritesEntity: FavoritesEntity) =
         viewModelScope.launch(Dispatchers.IO) {
             repository.local.insertFavoriteRecipes(favoritesEntity)
@@ -46,12 +48,11 @@ class MainViewModel @ViewModelInject constructor(
         }
 
 
-
     //retrofit
-    var recipesGet:MutableLiveData<NetworkResult<FoodRecipe>> = MutableLiveData()
-    var searchResponse:MutableLiveData<NetworkResult<FoodRecipe>> = MutableLiveData()
+    var recipesGet: MutableLiveData<NetworkResult<FoodRecipe>> = MutableLiveData()
+    var searchResponse: MutableLiveData<NetworkResult<FoodRecipe>> = MutableLiveData()
 
-    fun getRecipes(queries :Map<String,String>)=viewModelScope.launch {
+    fun getRecipes(queries: Map<String, String>) = viewModelScope.launch {
         getRecipesCall(queries)
     }
 
@@ -59,76 +60,76 @@ class MainViewModel @ViewModelInject constructor(
         searchRecipesCall(searchQuery)
     }
 
-    private suspend fun getRecipesCall(queries: Map<String, String>){
-        recipesGet.value=NetworkResult.Loading()
-        if(hasInternetConnection()){
-            try{
-                val response= repository.remote.getRecipes(queries)
-                recipesGet.value =handleFoodRecipesResponse(response)
-                val recipe=recipesGet.value!!.data
-                if(recipe !=null){
+    private suspend fun getRecipesCall(queries: Map<String, String>) {
+        recipesGet.value = NetworkResult.Loading()
+        if (hasInternetConnection()) {
+            try {
+                val response = repository.remote.getRecipes(queries)
+                recipesGet.value = handleFoodRecipesResponse(response)
+                val recipe = recipesGet.value!!.data
+                if (recipe != null) {
                     cacheFood(recipe)
                 }
-            }catch (e:Exception){
-                recipesGet.value=NetworkResult.Error("Recipes not found")
+            } catch (e: Exception) {
+                recipesGet.value = NetworkResult.Error("Recipes not found")
             }
-        }else{
-            recipesGet.value=NetworkResult.Error("No internet Connection")
+        } else {
+            recipesGet.value = NetworkResult.Error("No internet Connection")
         }
     }
 
-    private fun cacheFood(foodRecipe: FoodRecipe){
-        val foodEntity=FoodEntity(foodRecipe)
+    private fun cacheFood(foodRecipe: FoodRecipe) {
+        val foodEntity = FoodEntity(foodRecipe)
         insertRecipes(foodEntity)
     }
 
-    private suspend fun searchRecipesCall(searchQuery:Map<String,String>){
+    private suspend fun searchRecipesCall(searchQuery: Map<String, String>) {
         searchResponse.value = NetworkResult.Loading()
-        if(hasInternetConnection()) {
+        if (hasInternetConnection()) {
             try {
                 val response = repository.remote.searchRecipes(searchQuery)
                 searchResponse.value = handleFoodRecipesResponse(response)
             } catch (e: Exception) {
                 searchResponse.value = NetworkResult.Error("Recipes not found")
             }
-        }else{
+        } else {
             searchResponse.value = NetworkResult.Error("No Internet Connection")
+        }
+    }
+
+
+    private fun handleFoodRecipesResponse(response: Response<FoodRecipe>): NetworkResult<FoodRecipe> {
+        when {
+            response.message().toString().contains("timeout") -> {
+                return NetworkResult.Error("Timeout")
+            }
+            response.code() == 402 -> {
+                return NetworkResult.Error("error with API key")
+            }
+            response.body()!!.results.isNullOrEmpty() -> {
+                return NetworkResult.Error("Recipes not found")
+            }
+            response.isSuccessful -> {
+                val foodRecipes = response.body()
+                return NetworkResult.Success(foodRecipes!!)
+            }
+            else -> {
+                return NetworkResult.Error(response.message())
             }
         }
-
-
-    private fun handleFoodRecipesResponse(response: Response<FoodRecipe>):NetworkResult<FoodRecipe>?{
-    when {
-        response.message().toString().contains("timeout") -> {
-            return NetworkResult.Error("Timeout")
-        }
-        response.code() ==402 ->{
-            return NetworkResult.Error("error with API key")
-        }
-        response.body()!!.results.isNullOrEmpty()->{
-            return NetworkResult.Error("Recipes not found")
-        }
-        response.isSuccessful ->{
-            val foodRecipes = response.body()
-            return NetworkResult.Success(foodRecipes!!)
-        }
-        else ->{
-            return NetworkResult.Error(response.message())
-        }
-    }
     }
 
-    private fun hasInternetConnection():Boolean{
+    private fun hasInternetConnection(): Boolean {
         val connectivityManager = getApplication<Application>().getSystemService(
             Context.CONNECTIVITY_SERVICE
         ) as ConnectivityManager
-        val activeNetwork =connectivityManager.activeNetwork ?: return false
-        val capabilities =connectivityManager.getNetworkCapabilities(activeNetwork)?:return false
-        return when{
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)-> true
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ->true
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)->true
-            else ->false
+        val activeNetwork = connectivityManager.activeNetwork ?: return false
+        val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
+        return when {
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+            else -> false
         }
     }
 }

@@ -15,14 +15,14 @@ import kotlinx.android.synthetic.main.fragment_ingredient.view.*
 
 class Ingredient : Fragment() {
 
-    private val mAdapter : IngredientAdapter by lazy {IngredientAdapter()}
+    private val mAdapter: IngredientAdapter by lazy { IngredientAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_ingredient,container,false)
+        val view = inflater.inflate(R.layout.fragment_ingredient, container, false)
         val args = arguments
         val myBundle: Result? = args?.getParcelable(RECIPE_RESULT_KEY)
 
@@ -34,7 +34,7 @@ class Ingredient : Fragment() {
 
     }
 
-    private fun setupRecyclerView(view: View){
+    private fun setupRecyclerView(view: View) {
         view.ingredient_recyclerView.adapter = mAdapter
         view.ingredient_recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }

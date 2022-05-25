@@ -36,18 +36,18 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
 
-    private val args by navArgs <RecipesFragmentArgs>()
+    private val args by navArgs<RecipesFragmentArgs>()
 
-    private var _binding : FragmentRecipesBinding? = null
-    private val binding get()= _binding!!
-    private lateinit var mainViewModel : MainViewModel
-    private lateinit var recipesViewModel : RecipesViewModel
+    private var _binding: FragmentRecipesBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var mainViewModel: MainViewModel
+    private lateinit var recipesViewModel: RecipesViewModel
     private val mAdapter by lazy { RecipesAdapter() }
 
     private lateinit var networkListener: NetworkListener
 
 
-    override fun onCreate(savedInstanceState : Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         recipesViewModel = ViewModelProvider(requireActivity()).get(RecipesViewModel::class.java)
@@ -58,10 +58,10 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentRecipesBinding.inflate(inflater,container,false)
+        _binding = FragmentRecipesBinding.inflate(inflater, container, false)
 
-        binding.lifecycleOwner=this
-        binding.mainViewModel=mainViewModel
+        binding.lifecycleOwner = this
+        binding.mainViewModel = mainViewModel
 
         setHasOptionsMenu(true)
 
@@ -74,7 +74,7 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
         lifecycleScope.launchWhenStarted {
             networkListener = NetworkListener()
             networkListener.checkedNetworkAvailability(requireContext())
-                .collect{ status ->
+                .collect { status ->
                     recipesViewModel.networkStatus = status
                     recipesViewModel.showNetworkStatus()
                     readLocalDatabase()
@@ -95,10 +95,10 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
 
-    private fun readLocalDatabase(){
+    private fun readLocalDatabase() {
         lifecycleScope.launch {
-            mainViewModel.readRecipes.observeOnce(viewLifecycleOwner) { database->
-                if(database.isNotEmpty() && !args.backFromBottomSheet) {
+            mainViewModel.readRecipes.observeOnce(viewLifecycleOwner) { database ->
+                if (database.isNotEmpty() && !args.backFromBottomSheet) {
                     mAdapter.setData(database[0].foodRecipe)
                 } else {
                     requestApiData()
@@ -107,14 +107,14 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
         }
     }
 
-    private fun requestApiData(){
+    private fun requestApiData() {
         mainViewModel.getRecipes(recipesViewModel.applyQueries())
-        mainViewModel.recipesGet.observe(viewLifecycleOwner) { response->
-            when(response) {
-                is NetworkResult.Success-> {
-                    response.data?.let{mAdapter.setData(it)}
+        mainViewModel.recipesGet.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is NetworkResult.Success -> {
+                    response.data?.let { mAdapter.setData(it) }
                 }
-                is NetworkResult.Error-> {
+                is NetworkResult.Error -> {
                     loadDataFromCache()
                     Toast.makeText(
                         requireContext(),
@@ -131,19 +131,19 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
 
-    private fun loadDataFromCache(){
-        lifecycleScope.launch{
-            mainViewModel.readRecipes.observe(viewLifecycleOwner){database->
-                if(database.isNotEmpty()){
+    private fun loadDataFromCache() {
+        lifecycleScope.launch {
+            mainViewModel.readRecipes.observe(viewLifecycleOwner) { database ->
+                if (database.isNotEmpty()) {
                     mAdapter.setData(database[0].foodRecipe)
                 }
             }
         }
     }
 
-    private fun setupRecyclerView(){
-        binding.recyclerView.adapter=mAdapter
-        binding.recyclerView.layoutManager=LinearLayoutManager(requireContext())
+    private fun setupRecyclerView() {
+        binding.recyclerView.adapter = mAdapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
 
@@ -180,7 +180,7 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        if(query != null) {
+        if (query != null) {
             searchApiData(query)
         }
         return true

@@ -16,23 +16,25 @@ import kotlinx.android.synthetic.main.activity_main.*
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
-    private lateinit var navHostFragment:NavHostFragment
+    private lateinit var navHostFragment: NavHostFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_Cookbook)
         setContentView(R.layout.activity_main)
-        navHostFragment=supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
-        navController=navHostFragment.navController
-        val appBarConfiguration= AppBarConfiguration(
+        navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
+        navController = navHostFragment.navController
+        val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.recipesFragment,
                 R.id.favoriteFragment
-            ))
+            )
+        )
         bottomNavigationView.setupWithNavController(navController)
-        setupActionBarWithNavController(navController,appBarConfiguration)
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp()||super.onSupportNavigateUp()
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }

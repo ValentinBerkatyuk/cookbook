@@ -18,4 +18,4 @@ data class ExtendedIngredient(
     val original: String,
     @SerializedName("unit")
     val unit: String
-):Parcelable
+) : Parcelable

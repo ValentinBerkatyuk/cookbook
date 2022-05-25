@@ -20,8 +20,8 @@ class RecipeRowBinding {
 
         @BindingAdapter("parseHtml")
         @JvmStatic
-        fun parseHtml(textView: TextView, description: String?){
-            if(description != null) {
+        fun parseHtml(textView: TextView, description: String?) {
+            if (description != null) {
                 val desc = Jsoup.parse(description).text()
                 textView.text = desc
             }
@@ -30,13 +30,13 @@ class RecipeRowBinding {
 
         @BindingAdapter("onRecipeClickListener")
         @JvmStatic
-        fun onRecipeClickListener(recipeRowLayout:ConstraintLayout,result: Result){
+        fun onRecipeClickListener(recipeRowLayout: ConstraintLayout, result: Result) {
             recipeRowLayout.setOnClickListener {
-                try{
-                    val action=
+                try {
+                    val action =
                         RecipesFragmentDirections.actionRecipesFragmentToDetailsActivity(result)
                     recipeRowLayout.findNavController().navigate(action)
-                }catch (e:Exception){
+                } catch (e: Exception) {
 
                 }
             }
@@ -54,24 +54,21 @@ class RecipeRowBinding {
         @BindingAdapter("applyVeganColor")
         @JvmStatic
         fun applyVeganColor(view: View, vegan: Boolean) {
-            if(vegan){
-                when(view){
-                    is TextView -> {
-                        view.setTextColor(
-                            ContextCompat.getColor(
-                                view.context,
-                                R.color.green
-                            )
+            if (vegan) {
+                when (view) {
+                    is TextView -> view.setTextColor(
+                        ContextCompat.getColor(
+                            view.context,
+                            R.color.green
                         )
-                    }
-                    is ImageView -> {
-                        view.setColorFilter(
-                            ContextCompat.getColor(
-                                view.context,
-                                R.color.green
-                            )
+                    )
+
+                    is ImageView -> view.setColorFilter(
+                        ContextCompat.getColor(
+                            view.context,
+                            R.color.green
                         )
-                    }
+                    )
                 }
             }
         }
