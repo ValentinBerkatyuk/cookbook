@@ -1,0 +1,54 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Cookbook" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/colorAccent</item>
+        <item name="colorSecondaryVariant">@color/colorAccent</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="actionBarTheme">@color/colorPrimary</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="actionModeBackground">@color/contextualActionBarColor</item>
+    </style>
+
+    <style name="Theme.Cookbook.NoActionBar">
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipBackgroundColor">@color/chip_background</item>
+        <item name="android:textColor">@color/text_chip</item>
+        <item name="checkedIconTint">@color/text_chip</item>
+    </style>
+
+    <style name="DetailActivityStyle" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="TabLayoutStyle" parent="Widget.Design.TabLayout">
+        <item name="background">@color/actionBarBackgroundColor</item>
+        <item name="tabIndicatorColor">@color/white</item>
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="actionBarTheme">@color/colorPrimary</item>
+    </style>
+
+    <style name="TabTextStyle" parent="TextAppearance.Design.Tab">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Theme.Cookbook.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar" />
+
+    <style name="Theme.Cookbook.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/recipesFragment">
+
+    <fragment
+        android:id="@+id/recipesFragment"
+        android:name="com.example.cookbook.fragments.RecipesFragment"
+        android:label="@string/recipes"
+        tools:layout="@layout/fragment_recipes">
+
+        <action
+            android:id="@+id/action_recipesFragment_to_bottomSheet"
+            app:destination="@id/bottomSheet" />
+        <argument
+            android:name="backFromBottomSheet"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_recipesFragment_to_detailsActivity"
+            app:destination="@id/detailsActivity" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.example.cookbook.fragments.FavoriteFragment"
+        android:label="@string/favorites"
+        tools:layout="@layout/fragment_favorite">
+        <action
+            android:id="@+id/action_favoriteFragment_to_detailsActivity"
+            app:destination="@id/detailsActivity" />
+        <action
+            android:id="@+id/action_favoriteFragment_to_bottomSheet"
+            app:destination="@id/bottomSheet" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/bottomSheet"
+        android:name="com.example.cookbook.fragments.bottomsheet.bottomSheet"
+        android:label="fragment_bottom_sheet"
+        tools:layout="@layout/fragment_bottom_sheet" >
+        <action
+            android:id="@+id/action_bottomSheet_to_recipesFragment"
+            app:destination="@id/recipesFragment"
+            app:popUpTo="@id/recipesFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_bottomSheet_to_favoriteFragment"
+            app:destination="@id/favoriteFragment"
+            app:popUpTo="@id/favoriteFragment"
+            app:popUpToInclusive="true" />
+    </dialog>
+    <activity
+        android:id="@+id/detailsActivity"
+        android:name="com.example.cookbook.DetailsActivity"
+        android:label="activity_details"
+        tools:layout="@layout/activity_details" >
+        <argument
+            android:name="result"
+            app:argType="com.example.cookbook.models.Result" />
+    </activity>
+</navigation>

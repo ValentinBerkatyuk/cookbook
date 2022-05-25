@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimaryDark">#2196F3</color>
+    <color name="colorAccent">#1A77C8</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="lightGray">#F9F9F9</color>
+    <color name="mediumGray">#D1D1D1</color>
+    <color name="lightMediumGray">#80D1D1D1</color>
+    <color name="darkGray">#4B4B4B</color>
+    <color name="dark">#313C44</color>
+    <color name="darker">#151B20</color>
+    <color name="black">#000000</color>
+    <color name="red">#FF4646</color>
+    <color name="yellow">#FFC114</color>
+    <color name="green">#00B674</color>
+    <color name="blue">#3C56F8</color>
+
+    <color name="checkedChipBackgroundColor">#202196F3</color>
+    <color name="chipBackgroundColor">@color/lightGray</color>
+    <color name="checkedChipTextColor">@color/colorPrimary</color>
+    <color name="chipTextColor">@color/darkGray</color>
+
+    <color name="actionBarBackgroundColor">@color/colorPrimary</color>
+    <color name="strokeColor">@color/lightMediumGray</color>
+    <color name="cardBackgroundColor">@color/white</color>
+    <color name="titleColor">@color/darker</color>
+    <color name="contextualStatusBarColor">@color/darker</color>
+    <color name="contextualActionBarColor">@color/dark</color>
+    <color name="statusBarColor">@color/colorPrimaryDark</color>
+    <color name="cardBackgroundLightColor">#106200EA</color>
+</resources>
