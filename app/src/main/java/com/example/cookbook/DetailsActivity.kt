@@ -10,20 +10,17 @@ import com.example.cookbook.adapters.PagerAdapter
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.navArgs
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.cookbook.database.FavoritesEntity
 import com.example.cookbook.databinding.ActivityDetailsBinding
-import com.example.cookbook.fragments.Ingredient
-import com.example.cookbook.fragments.Instructions
-import com.example.cookbook.fragments.Overview
+import com.example.cookbook.fragments.IngredientFragment
+import com.example.cookbook.fragments.InstructionsFragment
+import com.example.cookbook.fragments.OverviewFragment
 import com.example.cookbook.util.Constants.Companion.RECIPE_RESULT_KEY
 import com.example.cookbook.viewmodels.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_details.*
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.toolbar
 import java.lang.Exception
 
 @AndroidEntryPoint
@@ -43,15 +40,14 @@ class DetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setSupportActionBar(binding.toolbar)
         binding.toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val fragments = ArrayList<Fragment>()
-        fragments.add(Overview())
-        fragments.add(Ingredient())
-        fragments.add(Instructions())
+        fragments.add(OverviewFragment())
+        fragments.add(IngredientFragment())
+        fragments.add(InstructionsFragment())
 
         val title = ArrayList<String>()
         title.add("Overview")

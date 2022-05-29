@@ -13,16 +13,12 @@ import com.example.cookbook.util.Constants.Companion.RECIPE_RESULT_KEY
 import kotlinx.android.synthetic.main.fragment_ingredient.view.*
 
 
-class Ingredient : Fragment() {
+class IngredientFragment : Fragment(R.layout.fragment_ingredient) {
 
     private val mAdapter: IngredientAdapter by lazy { IngredientAdapter() }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_ingredient, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val args = arguments
         val myBundle: Result? = args?.getParcelable(RECIPE_RESULT_KEY)
 
@@ -30,8 +26,6 @@ class Ingredient : Fragment() {
         myBundle?.extendedIngredients?.let {
             mAdapter.setData(it)
         }
-        return view
-
     }
 
     private fun setupRecyclerView(view: View) {

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.Overview"
+    tools:context=".fragments.OverviewFragment"
     tools:background="@color/white">
 
 
@@ -17,6 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@tools:sample/avatars" />
+
     <View
         android:id="@+id/gradient_overlay"
         android:layout_width="wrap_content"
