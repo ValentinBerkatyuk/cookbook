@@ -4,7 +4,7 @@ ThesisProject
 
 ![Recipes Screen – 2](https://user-images.githubusercontent.com/72772459/171410363-d199f86c-3fd6-45ed-9a60-aae2ce363156.png)
 
-![Recipes Screen – 2](https://user-images.githubusercontent.com/72772459/171410663-abbf6a20-0c5a-4394-8a6f-ad823c5dbcb3.png)
+![photo_2022-07-04_19-17-28](https://user-images.githubusercontent.com/72772459/177191233-7487d90d-09ff-4191-a91f-c2dca77b52b5.jpg)
 
 ![Recipes Screen – 2](https://user-images.githubusercontent.com/72772459/171411141-8c5a043d-53ee-4094-81cb-af1e59431a81.png)
 
