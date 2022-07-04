@@ -1,22 +1,17 @@
 package com.example.cookbook.fragments
 
-
-import android.app.Activity
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import by.kirich1409.viewbindingdelegate.viewBinding
-import com.example.cookbook.MainActivity
 import com.example.cookbook.R
 import com.example.cookbook.adapters.RecipesAdapter
-import com.example.cookbook.databinding.ActivityMainBinding
 import com.example.cookbook.databinding.FragmentRecipesBinding
 import com.example.cookbook.util.NetworkListener
 import com.example.cookbook.util.NetworkResult
@@ -24,17 +19,14 @@ import com.example.cookbook.util.observeOnce
 import com.example.cookbook.viewmodels.MainViewModel
 import com.example.cookbook.viewmodels.RecipesViewModel
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_overview.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
+class RecipesFragment : Fragment() {
 
     private val args by navArgs<RecipesFragmentArgs>()
 
@@ -122,14 +114,10 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-                is NetworkResult.Loading -> {
-
-                }
             }
 
         }
     }
-
 
     private fun loadDataFromCache() {
         lifecycleScope.launch {
@@ -153,7 +141,7 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
         val search = menu.findItem(R.id.menu_search)
         val searchView = search.actionView as? SearchView
         searchView?.isSubmitButtonEnabled = true
-        searchView?.setOnQueryTextListener(this)
+        searchView?.setOnQueryTextListener(onQueryTextChangeListener)
     }
 
 
@@ -173,27 +161,20 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-                is NetworkResult.Loading -> {
-                }
             }
         }
     }
 
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        if (query != null) {
-            searchApiData(query)
+    private val onQueryTextChangeListener = object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            query?.let { searchApiData(it) }
+
+            return true
         }
-        return true
+
+        override fun onQueryTextChange(p0: String?) = true
     }
 
-    override fun onQueryTextChange(p0: String?): Boolean {
-        return true
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
 
 
